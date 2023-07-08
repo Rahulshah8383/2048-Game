@@ -1,4 +1,5 @@
-from tkinter import Frame, Label, CENTER
+from tkinter import Frame, Label, Button, CENTER
+import time
 import LogicsFinal
 import constants as c
 
@@ -32,6 +33,16 @@ class Game2048(Frame):
         self.init_grid()         # Initialize the grid cells
         self.init_matrix()       # Initialize the game matrix
         self.update_grid_cells() # Update the grid cells with the numbers from the matrix
+
+        self.new_game_button = Button(self, text="New Game", command=self.start_new_game, bg="#8f7a66", fg="white", width=10, height=2)
+        self.new_game_button.grid(row=1, column=0, columnspan=2, pady=10)
+
+        self.timer_label = Label(self, text="Time: 0s", font=("Verdana", 12))
+        self.timer_label.grid(row=2, column=0, padx=10, pady=10)
+
+        self.start_time = time.time()
+        self.update_timer()
+
         self.mainloop()
 
     def init_grid(self):
@@ -70,6 +81,32 @@ class Game2048(Frame):
                                                     bg=c.BACKGROUND_COLOR_DICT[new_number],
                                                     fg=c.CELL_COLOR_DICT[new_number])
         self.update_idletasks()
+
+    def start_new_game(self):
+        """Start a new game."""
+        self.grid_cells[1][1].configure(text="", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+        self.grid_cells[1][2].configure(text="", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+        self.matrix = LogicsFinal.start_game()
+        LogicsFinal.add_new_2(self.matrix)
+        LogicsFinal.add_new_2(self.matrix)
+        self.update_grid_cells()
+
+    def update_timer(self):
+        """Update the timer label with the elapsed time."""
+        elapsed_time = int(time.time() - self.start_time)
+        self.timer_label.configure(text=f"Time: {elapsed_time}s")
+        self.timer_label.after(1000, self.update_timer)
+
+    def start_new_game(self):
+        """Start a new game."""
+        self.grid_cells[1][1].configure(text="", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+        self.grid_cells[1][2].configure(text="", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+        self.matrix = LogicsFinal.start_game()
+        LogicsFinal.add_new_2(self.matrix)
+        LogicsFinal.add_new_2(self.matrix)
+        self.update_grid_cells()
+
+        self.start_time = time.time()  # Reset the start time
 
     def key_down(self, event):
         """Process key events for game controls."""

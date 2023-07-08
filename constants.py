@@ -46,7 +46,7 @@ CELL_COLOR_DICT = {
 
 # Font settings for numbers in the grid
 # Change these values to modify the font style and size of numbers in the grid.
-FONT = ("Verdana", 40, "bold")
+FONT = ("Verdana", 30, "bold")
 
 # Keyboard keys for game controls
 # Change these values to modify the keyboard keys for different game controls.
